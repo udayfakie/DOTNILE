@@ -2,26 +2,35 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const App = () => {
-  const [data, setData] = useState([]);
+  const [users, setUsers] = useState([]);
   const getData = async () => {
     try {
       const response = await axios.get("http://localhost:3001/users");
-      setData(response);
-      // console.log(response.data);
+      setUsers(response.data);
+    
     } catch (error) {
       console.error(error);
     }
   };
-  console.log(data);
+  console.log(users);
   useEffect(() => {
     getData();
-  },[]);
+  }, []);
 
   return (
-    <div>
-   
-      <h1>hello</h1>
-    </div>
+    <>
+      {users.map((user, i) => {
+        return (
+          <div key={i}>
+            <ul>
+              <li>{user.name}</li>
+              <li>{user.age}</li>
+              <li>{user.email}</li>
+            </ul>
+          </div>
+        );
+      })}
+    </>
   );
 };
 
