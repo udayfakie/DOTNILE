@@ -23,8 +23,20 @@ app.post("/createUser", async (req, res) => {
   const user = req.body;
   const newUser = new UserModel(req.body);
   await newUser.save();
-
   res.json(user);
+});
+
+app.delete("/:id", async (req, res) => {
+  try {
+    const deletedUser = await UserModel.findByIdAndDelete(req.params.id);
+    if (!deletedUser) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+    res.json(deletedUser);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
 });
 
 app.listen(PORT, () => {
