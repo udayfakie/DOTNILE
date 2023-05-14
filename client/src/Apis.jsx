@@ -2,22 +2,14 @@ import React, { useEffect, useState, useRef } from "react";
 import Axios from "axios";
 import styled from "styled-components";
 
-const Data = () => {
+const Apis = () => {
   const [users, setUsers] = useState([]);
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [email, setEmail] = useState("");
+  const [text, setText] = useState("");
+  const [updateUser, setUpdateUser] = useState(-1);
   const BASE_URL = "http://localhost:3001";
-
-  const refreshData = async () => {
-    try {
-      const response = await Axios.get(`${BASE_URL}/users`);
-      setUsers(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const GetData = async () => {
     try {
@@ -27,12 +19,9 @@ const Data = () => {
       console.log(error);
     }
   };
-  GetData();
 
   useEffect(() => {
-    return () => {
-      refreshData();
-    };
+    GetData();
   }, []);
 
   const CreateUser = async () => {
@@ -43,20 +32,29 @@ const Data = () => {
         email,
       });
       setUsers([...users, response.data]);
-      console.log(response.data);
-      refreshData();
+      // console.log('created');
+      GetData();
     } catch (error) {
       console.error(error);
     }
   };
-
   const handleDelete = async (id) => {
     try {
       const response = await Axios.delete(`${BASE_URL}/${id}`);
-      console.log(response.data);
-      console.log("deleted");
+      // console.log("deleted");
       setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
-      refreshData();
+      GetData();
+    } catch (error) {
+      console.error("There was an error!", error);
+    }
+  };
+
+  const handleEdit = async (id) => {
+    try {
+      const response = await Axios.patch(`${BASE_URL}/${id}`);
+      console.log(response);
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
+      GetData();
     } catch (error) {
       console.error("There was an error!", error);
     }
@@ -89,8 +87,9 @@ const Data = () => {
               <LI>Age: {age}</LI>
               <LI>Email: {email}</LI>
             </Ul>
+
             <BUTTON_del onClick={() => handleDelete(_id)}>del</BUTTON_del>
-            <BUTTON_edit onClick={() => handleEdit(_id)}>edit</BUTTON_edit>
+            <BUTTON_edit onClick={() => handleEdit()}>edit</BUTTON_edit>
           </DisplayItems>
         );
       })}
@@ -98,7 +97,7 @@ const Data = () => {
   );
 };
 
-export default Data;
+export default Apis;
 
 const Container = styled.div`
   width: 100%;
@@ -115,7 +114,6 @@ const BUTTON = styled.button`
   color: white;
   font-size: 25px;
   margin: 10px;
-  
 `;
 const BUTTON_del = styled.button`
   background-color: red;
@@ -129,7 +127,7 @@ const BUTTON_edit = styled.button`
   color: white;
   font-size: 25px;
   margin: 10px;
-  width:70px;
+  width: 70px;
 `;
 const DisplayItems = styled.div`
   background-color: black;

@@ -1,5 +1,5 @@
 import React from 'react'
-import Data from './Data'
+import Apis from './Apis'
 import GlobalStyle from './GlobalStyle'
 
 
@@ -7,7 +7,7 @@ const App = () => {
   return (
     <>
     <GlobalStyle/>
-      <Data/>
+      <Apis/>
     </>
   )
 }
