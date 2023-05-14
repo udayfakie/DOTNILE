@@ -10,22 +10,7 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json());
 
-// Set the path to the static directory
-// const staticPath = path.join(__dirname, "public");
 
-// Set the path to the public directory
-// const publicPath = path.join(__dirname, "public");
-
-// Serve static files from the static directory
-// app.use(express.static(staticPath));
-
-// Serve public files from the public directory
-// app.use(express.static(publicPath));
-
-// Route all other requests to the index.html file
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "public", "index.html"));
-// });
 
 //CONNECT TO THE DATA_BASE
 mongoose.connect(process.env.DATABASE_CONNETCTION);
