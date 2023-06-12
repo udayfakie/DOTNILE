@@ -8,7 +8,7 @@ const Apis = () => {
   const [age, setAge] = useState("");
   const [email, setEmail] = useState("");
   const [text, setText] = useState("");
-  const [updateUser, setUpdateUser] = useState(-1);
+  const [updateUser, setUpdateUser] = useState("");
   const BASE_URL = "http://localhost:3001";
 
   const GetData = async () => {
@@ -51,7 +51,7 @@ const Apis = () => {
 
   const handleEdit = async (id) => {
     try {
-      const response = await Axios.patch(`${BASE_URL}/${id}`);
+      const response = await Axios.put(`${BASE_URL}/${id}`);
       console.log(response);
       setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
       GetData();
@@ -87,12 +87,13 @@ const Apis = () => {
               <LI>Age: {age}</LI>
               <LI>Email: {email}</LI>
             </Ul>
-
             <BUTTON_del onClick={() => handleDelete(_id)}>del</BUTTON_del>
-            <BUTTON_edit onClick={() => handleEdit()}>edit</BUTTON_edit>
+            <BUTTON_edit onClick={() => handleEdit(_id)}>edit</BUTTON_edit>
           </DisplayItems>
         );
       })}
+
+     
     </Container>
   );
 };
@@ -105,7 +106,6 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: teal;
   flex-direction: column;
 `;
 
