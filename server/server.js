@@ -10,10 +10,11 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json());
 
-
-
 //CONNECT TO THE DATA_BASE
 mongoose.connect(process.env.DATABASE_CONNETCTION);
+
+
+
 //GET REQUEST
 app.get("/users", async (req, res) => {
   const users = await UserModel.find();
@@ -28,6 +29,8 @@ app.post("/createUser", async (req, res) => {
   res.json(user);
 });
 
+
+//DELETE USERS
 app.delete("/:id", async (req, res) => {
   try {
     const deletedUser = await UserModel.findByIdAndDelete(req.params.id);
@@ -41,21 +44,14 @@ app.delete("/:id", async (req, res) => {
   }
 });
 
-app.patch("/:id", async (req, res) => {
+//UPDATE USERS
+app.put("/:id", async (req, res) => {
   try {
-    const { name, age, email } = req.body;
-    const updatedUser = await UserModel.findByIdAndUpdate(
-      req.params.id,
-      { $set: { name, age, email } },
-      { new: true }
-    );
-    if (!updatedUser) {
-      return res.status(404).json({ msg: "User not found" });
-    }
-    res.json(updatedUser);
+    const userId = req.params.id;
+    const updatedUser = await UserModel.replaceOne({ _id: userId }, req.body);
+    res.json({ updatedCount: updatedUser.modifiedCount });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(500).json({error: 'something went worng'})
   }
 });
 
