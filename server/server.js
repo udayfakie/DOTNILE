@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 //CONNECT TO THE DATA_BASE
-mongoose.connect(process.env.DATABASE_CONNETCTION);
+mongoose.connect(process.env.Databeas_URL);
 
 
 

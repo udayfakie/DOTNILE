@@ -12,6 +12,8 @@ const Navbar = () => {
       <StyledNavLink to="/">Home</StyledNavLink>
       <StyledNavLink to="/service">Service</StyledNavLink>
       <StyledNavLink to="/documentation">Documentation</StyledNavLink>
+      <StyledNavLink to="/about">About</StyledNavLink>
+
     </Container>
   );
 };
