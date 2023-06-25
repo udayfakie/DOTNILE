@@ -3,12 +3,14 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const UserModel = require("./models/Users");
+const userAuth = require("./routes/auth")
 
 dotenv.config();
 const app = express();
 const PORT = 3001;
 app.use(cors());
 app.use(express.json());
+
 
 //CONNECT TO THE DATA_BASE
 mongoose.connect(process.env.DATABASE_CONNETCTION);
@@ -54,6 +56,9 @@ app.put("/:id", async (req, res) => {
     res.status(500).json({error: 'something went worng'})
   }
 });
+
+app.use("/api/",userAuth)
+
 
 app.listen(PORT, () => {
   console.log(`server listening on port ${PORT} and connected to the dataBase`);
